@@ -10,11 +10,7 @@ import numpy as np
 import torch 
 import os 
 import torch.nn as nn 
-from tqdm import tqdm 
-import sys
 import time 
-import math 
-import copy 
 import configs 
 import pickle 
 import get_subset_cifar10 as gsc 
@@ -149,10 +145,10 @@ def check_test_accuracy(model_checkpoints, conf):
     
    
 def train_with_conf(conf):    
-    model_mom = "SOME DIRECTORY"
+    model_mom = "../exp_data/"
 
-    conf.folder_name = "SOME NAME" 
-    conf.dir_name = "SOME NAME"
+    conf.folder_name = "cifar10" 
+    conf.dir_name = "version_0"
     
     model_dir = model_mom + "%s/%s/" % (conf.folder_name, conf.dir_name)     
     

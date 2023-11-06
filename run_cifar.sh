@@ -20,7 +20,7 @@ echo -e "Working dir: $(pwd)\n"
 
 
 lr_group="0.1"
-n_clients=10 
+n_clients=5 
 split=non_iid 
 local_epoch=10
 method=check_zeta
@@ -28,14 +28,14 @@ non_iid_alpha=0.1
 dataset=cifar10 
 model_type=m_cnn 
 version=2
-num_rounds=200
+num_rounds=2
 sigma=0
 start_round=0
 start_client=0
 end_client=9
 
-num2=3
-num3=6
+num2=6
+# num3=6
 
 # echo ${SLURM_STEP_GPUS:-$SLURM_JOB_GPUS}
 
@@ -51,10 +51,8 @@ do
         do
             if [ "$i" -lt "$num2" ]; then
                 gpu_index=0
-            elif [ "$i" -ge "$num2" ] && [ "$i" -lt "$num3" ]; then 
-                gpu_index=1
-            elif [ "$i" -ge "$num3" ]; then 
-                gpu_index=2
+            # elif [ "$i" -ge "$num2" ] && [ "$i" -lt "$num3" ]; then 
+            #     gpu_index=1
             fi        
             echo "|GPU INDEX|CLIENT INDEX|${gpu_index}|${i}"
             export CUDA_VISIBLE_DEVICES="$gpu_index"
