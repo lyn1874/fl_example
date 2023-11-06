@@ -48,9 +48,12 @@ class Train(object):
                         
     def _update_batch_tr(self, _image, _label, global_step):
         _image, _label = _image.to(device), _label.to(device)
+#        print(_image.shape, _label.shape)
         self.optimizer.zero_grad()
         _pred = self.model_use(_image)
+#        print("the shape of the prediction", _pred.shape)
         _loss = self.loss_fn(_pred, _label) / len(_image)
+#        print("the loss", _loss)
         _loss.backward()
         self.optimizer.step()
         accu = (_pred.argmax(axis=-1) == _label).sum().div(len(_image))

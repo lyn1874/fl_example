@@ -28,7 +28,7 @@ def give_args():
     parser.add_argument("--shuffle_percentage", type=float, default=0.0)
     parser.add_argument("--seed_use", type=int, default=1024)
     parser.add_argument("--num_local_epochs", type=int, default=100)
-    parser.add_argument("--batch_size", type=int, default=1024)
+    parser.add_argument("--batch_size", type=int, default=32)
     parser.add_argument("--method", type=str, default="check_zeta")
     parser.add_argument("--version", type=int, default=0)
     parser.add_argument("--lr", type=float, default=0.1)

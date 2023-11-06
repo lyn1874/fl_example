@@ -145,6 +145,7 @@ def get_cifar(name, root="../image_dataset/", split="train", transform_apply=Tru
         root=root,
         train=is_train,
         transform=transform,
+	download=True
     )
     
     

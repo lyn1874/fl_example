@@ -1,6 +1,6 @@
 #!/bin/bash
-# # trap "exit" INT
-# trap 'kill $(jobs -p)' EXIT
+# trap "exit" INT
+trap 'kill $(jobs -p)' EXIT
 # # SBATCH --job-name=per_sample
 # #SBATCH --output=cifar_per_sample-%J.out
 # #SBATCH --cpus-per-task=2
@@ -20,7 +20,7 @@ echo -e "Working dir: $(pwd)\n"
 
 
 lr_group="0.1"
-n_clients=5 
+n_clients=2 
 split=non_iid 
 local_epoch=10
 method=check_zeta
@@ -28,20 +28,20 @@ non_iid_alpha=0.1
 dataset=cifar10 
 model_type=m_cnn 
 version=2
-num_rounds=2
+num_rounds=1
 sigma=0
 start_round=0
 start_client=0
-end_client=9
+end_client=1
 
-num2=6
-# num3=6
+num2=3
+num3=6
 
 # echo ${SLURM_STEP_GPUS:-$SLURM_JOB_GPUS}
 
 for s_lr in $lr_group
 do
-    python3 mnist_utils.py --n_clients "$n_clients" --split "$split" --sigma "$sigma" --num_local_epochs "$local_epoch" \
+    python mnist_utils.py --n_clients "$n_clients" --split "$split" --sigma "$sigma" --num_local_epochs "$local_epoch" \
             --method "$method" --version "$version" --lr "$s_lr" \
             --num_rounds "$num_rounds" --dataset "$dataset" --model_type "$model_type" --non_iid_alpha "$non_iid_alpha" --start_round "$start_round"
 
@@ -51,12 +51,12 @@ do
         do
             if [ "$i" -lt "$num2" ]; then
                 gpu_index=0
-            # elif [ "$i" -ge "$num2" ] && [ "$i" -lt "$num3" ]; then 
-            #     gpu_index=1
+            elif [ "$i" -ge "$num2" ] && [ "$i" -lt "$num3" ]; then 
+                gpu_index=3
             fi        
             echo "|GPU INDEX|CLIENT INDEX|${gpu_index}|${i}"
             export CUDA_VISIBLE_DEVICES="$gpu_index"
-            python3 train_cifar10_efficient.py --n_clients "$n_clients" --split "$split" --sigma "$sigma" --num_local_epochs "$local_epoch" \
+            python train_cifar10_efficient.py --n_clients "$n_clients" --split "$split" --sigma "$sigma" --num_local_epochs "$local_epoch" \
                 --method "$method" --version "$version" --lr "$s_lr" \
                 --num_rounds "$num_rounds" --use_local_id "$i" --dataset "$dataset" --opt client \
                 --model_type "$model_type" --non_iid_alpha "$non_iid_alpha" --start_round "$start_round" --round "$round" &
