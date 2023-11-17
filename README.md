@@ -9,9 +9,7 @@
   - ```nvidia-smi``` check the existing gpus
 - Load the necessary packages, e.g.,
   ```
-  module load python3/3.9.11
-  module load numpy/1.22.3-python-3.9.11-openblas-0.3.19
-  module load scipy/1.7.3-python-3.9.11
+  module load scipy/1.10.1-python-3.9.17 matplotlib/3.7.1-numpy-1.24.3-python-3.9.17
   ```
   Note you may need to load other packages based on your own requirements, please check available packages via `module avail ...` 
  
@@ -20,8 +18,6 @@
   python3 -m venv torch_dl
   source torch_dl/bin/activate
   python -m pip install torch torchvision
-  python -m pip uninstall urllib3  
-  python -m pip install 'urllib3<2.0'
   ```
   Note, again, you may need to install other required packages in this virtual env, e.g., seaborn... via `python -m pip install .... `
 - After this, check if you can get the output below:

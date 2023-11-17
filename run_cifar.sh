@@ -20,7 +20,7 @@ echo -e "Working dir: $(pwd)\n"
 
 
 lr_group="0.1"
-n_clients=2 
+n_clients=3 
 split=non_iid 
 local_epoch=10
 method=check_zeta
@@ -32,7 +32,7 @@ num_rounds=1
 sigma=0
 start_round=0
 start_client=0
-end_client=1
+end_client=2
 
 num2=3
 num3=6
