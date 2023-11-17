@@ -134,6 +134,8 @@ def check_test_accuracy(model_checkpoints, conf):
     model_use = mnist_utils.create_model(conf).to(device)
     model_use.load_state_dict(model_checkpoints)
     loss, accu = 0.0, 0.0
+    num_class = 10
+    preds = np.zeros([len(tt_loader) * 1000, num_class])
     for i, (_im, _la) in enumerate(tt_loader):
         _im, _la = _im.to(device), _la.to(device)
         _pred = model_use(_im)
@@ -141,6 +143,8 @@ def check_test_accuracy(model_checkpoints, conf):
         _accu = (_pred.argmax(axis=-1) == _la).sum()
         loss += _loss.detach().cpu().numpy()
         accu += _accu.detach().cpu().numpy()
+        preds[i*1000:(i+1)*1000] = _pred.detach().cpu().numpy()
+    print("The shape of the prediction", np.shape(preds))        
     loss = loss / len(tt_loader) 
     accu = accu / len(tt_loader) / 1000 
     print("Server model loss: %.4f and accuracy: %.4f" % (loss, accu)) 
